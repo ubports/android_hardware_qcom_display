@@ -565,7 +565,7 @@ void MDPComp::generateROI(hwc_context_t *ctx, hwc_display_contents_1_t* list) {
             hwc_rect_t dst = layer->displayFrame;
             hwc_rect_t updatingRect = dst;
 
-#ifdef QCOM_BSP
+#ifdef QCOM_BSP_DIRTY_RECT
             if(!needsScaling(layer) && !layer->transform)
             {
                 hwc_rect_t src = integerizeSourceCrop(layer->sourceCropf);
@@ -2180,4 +2180,3 @@ bool MDPCompSplit::draw(hwc_context_t *ctx, hwc_display_contents_1_t* list) {
     return true;
 }
 }; //namespace
-

@@ -217,7 +217,7 @@ int CopyBit::getLayersChanging(hwc_context_t *ctx,
 
     if ( updatingLayerCount ==  1 ) {
        hwc_rect_t dirtyRect = list->hwLayers[changingLayerIndex].displayFrame;
-#ifdef QCOM_BSP
+#ifdef QCOM_BSP_DIRTY_RECT
        dirtyRect = list->hwLayers[changingLayerIndex].dirtyRect;
 #endif
 
@@ -519,7 +519,7 @@ bool  CopyBit::draw(hwc_context_t *ctx, hwc_display_contents_1_t *list,
     if (CBUtils::getuiClearRegion(list, clearRegion, layerProp)){
         if (mDirtyLayerIndex != -1){
             hwc_layer_1_t *layer = &list->hwLayers[mDirtyLayerIndex];
-#ifdef QCOM_BSP
+#ifdef QCOM_BSP_DIRTY_RECT
              hwc_rect_t result = getIntersection(layer->dirtyRect,clearRegion);
              if(isValidRect(result))
                clear(renderBuffer,result);
@@ -837,7 +837,7 @@ int  CopyBit::drawLayerUsingCopybit(hwc_context_t *dev, hwc_layer_1_t *layer,
     copybit_rect_t dstRect = {displayFrame.left, displayFrame.top,
                               displayFrame.right,
                               displayFrame.bottom};
-#ifdef QCOM_BSP
+#ifdef QCOM_BSP_DIRTY_RECT
     //change src and dst with dirtyRect
     if(mDirtyLayerIndex != -1) {
       srcRect.l = layer->dirtyRect.left;

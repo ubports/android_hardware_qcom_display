@@ -1282,7 +1282,7 @@ void optimizeLayerRects(hwc_context_t *ctx,
                      layer->sourceCropf.top = (float)bottomCrop.top;
                      layer->sourceCropf.right = (float)bottomCrop.right;
                      layer->sourceCropf.bottom = (float)bottomCrop.bottom;
-#ifdef QCOM_BSP
+#ifdef QCOM_BSP_DIRTY_RECT
                      //Update layer dirtyRect
                      layer->dirtyRect = getIntersection(bottomCrop,
                                             layer->dirtyRect);
@@ -1485,7 +1485,7 @@ int hwc_sync(hwc_context_t *ctx, hwc_display_contents_1_t* list, int dpy,
                     //For Blit, the app layers should be released when the Blit
                     //is complete. This fd was passed from copybit->draw
                     list->hwLayers[i].releaseFenceFd = dup(fd);
-                } else 
+                } else
 #endif
                 {
                     list->hwLayers[i].releaseFenceFd = dup(releaseFd);
