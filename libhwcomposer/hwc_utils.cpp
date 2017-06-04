@@ -143,12 +143,19 @@ static int openFramebufferDevice(hwc_context_t *ctx)
         return -errno;
     }
 
+#ifdef USE_SF_LCD_DENSITY
+    char lcd_density[PROPERTY_VALUE_MAX];
+    property_get("ro.sf.lcd_density", lcd_density, "160");
+    info.width  = ((info.xres * 25.4f)/atoi(lcd_density) + 0.5f);
+    info.height = ((info.yres * 25.4f)/atoi(lcd_density) + 0.5f);
+#else
     if (int(info.width) <= 0 || int(info.height) <= 0) {
         // the driver doesn't return that information
         // default to 160 dpi
         info.width  = ((info.xres * 25.4f)/160.0f + 0.5f);
         info.height = ((info.yres * 25.4f)/160.0f + 0.5f);
     }
+#endif
 
     float xdpi = (info.xres * 25.4f) / info.width;
     float ydpi = (info.yres * 25.4f) / info.height;
