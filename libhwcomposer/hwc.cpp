@@ -794,6 +794,10 @@ int hwc_getDisplayAttributes(struct hwc_composer_device_1* dev, int disp,
         }
     }
 
+#ifdef USE_SF_LCD_DENSITY
+    char lcd_density[PROPERTY_VALUE_MAX];
+#endif
+
     for (size_t i = 0; i < NUM_DISPLAY_ATTRIBUTES - 1; i++) {
 	if (attributes[i] == HWC_DISPLAY_NO_ATTRIBUTE) break;
         switch (attributes[i]) {
@@ -812,10 +816,20 @@ int hwc_getDisplayAttributes(struct hwc_composer_device_1* dev, int disp,
                    hotPluggable ? yres : ctx->dpyAttr[disp].yres);
             break;
         case HWC_DISPLAY_DPI_X:
+#ifdef USE_SF_LCD_DENSITY
+            property_get("ro.sf.lcd_density", lcd_density, "0");
+            values[i] = (int32_t) (atoi(lcd_density)*1000.0);
+#else
             values[i] = (int32_t) (ctx->dpyAttr[disp].xdpi*1000.0);
+#endif
             break;
         case HWC_DISPLAY_DPI_Y:
+#ifdef USE_SF_LCD_DENSITY
+            property_get("ro.sf.lcd_density", lcd_density, "0");
+            values[i] = (int32_t) (atoi(lcd_density)*1000.0);
+#else
             values[i] = (int32_t) (ctx->dpyAttr[disp].ydpi*1000.0);
+#endif
             break;
         case HWC_DISPLAY_SECURE:
             values[i] = (int32_t) (ctx->dpyAttr[disp].secure);
