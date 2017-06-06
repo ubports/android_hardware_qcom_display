@@ -41,6 +41,10 @@ endif
 common_deps  :=
 kernel_includes :=
 
+ifeq ($(TARGET_USES_SF_LCD_DENSITY_DPI),true)
+    common_flags += -DUSE_SF_LCD_DENSITY
+endif
+
 # Executed only on QCOM BSPs
 ifeq ($(TARGET_USES_QCOM_BSP),true)
 # Enable QCOM Display features
